@@ -300,13 +300,14 @@ This section provides two ways to run the app:
 1. locally for development and testing
 2. Using Docker for a portable, containerized deployment.
 
-### **1. Running Locally**
+### **Running Locally**
 
 1. **Clone the Repository**:
     
     ```bash
     git clone git@github.com:AHMEDELZARIA/medsender-challenge.git
     cd medsender-challenge
+    
     ```
     
 2. **Set Up a Virtual Environment (Optional)**:
@@ -314,24 +315,34 @@ This section provides two ways to run the app:
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+    
     ```
     
 3. **Install Dependencies**:
     
     ```bash
     pip install -r requirements.txt
+    
     ```
     
-4. **Run the App**:
+4. **Set Up Environment Variables**:
+    - Create a `.env` file in the project root:
+        
+        ```
+        OPENAI_API_KEY=your-openai-api-key
+        LLAMA_PARSE_API_KEY=your-llama-parse-api-key
+        
+        ```
+        
+5. **Run the App**:
     
     ```bash
     uvicorn app.main:app --reload
+    
     ```
     
-5. **Access the API**:
-    - Visit `http://localhost:8000/docs` to view the interactive Swagger API documentation. The endpoint is called “/extract”
-
----
+6. **Access the API**:
+    - Visit `http://localhost:8000/docs` to view the interactive Swagger API documentation.
 
 ### **2. Running with Docker**
 
@@ -344,9 +355,11 @@ This section provides two ways to run the app:
 2. **Run the Docker Container**:
     
     ```bash
-    docker run -d -p 8000:8000 medsender-challenge
+    docker run -d -p 8000:8000 --env-file .env medsender-challenge
     
     ```
+   
+    See .env instruction for running locally for api key names.
     
 3. **Access the API**:
     - Visit `http://localhost:8000/docs` to view the interactive Swagger API documentation.
