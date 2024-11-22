@@ -78,8 +78,6 @@ For this challenge, I focus on **lab results** and aim to extract the following 
     - Leverages LLMs to extract and organize text in Markdown format.
     - Maintains logical ordering and categorization, addressing layout challenges.
 
----
-
 ### **2. Noisy Data**
 
 ### Challenges:
@@ -90,8 +88,6 @@ For this challenge, I focus on **lab results** and aim to extract the following 
 ### Solution:
 
 - Combined **Llama Parse** with targeted prompt engineering to improve logical structure and clean extracted data.
-
----
 
 ### **3. Field Extraction**
 
@@ -166,7 +162,7 @@ For this challenge, I focus on **lab results** and aim to extract the following 
 
 ### UML Overview
 
-!https://prod-files-secure.s3.us-west-2.amazonaws.com/8002712a-ddc5-4d8b-bcd2-fdada339459d/c501e94d-4ff9-47e7-b7bd-6b0d1804da84/structure.png
+![structure](https://github.com/user-attachments/assets/a87cfc42-0bf2-42da-9f55-427b69728e0e)
 
 ### Highlights:
 
@@ -178,7 +174,7 @@ This was designed with the purpose of being maintainable and extensible. Later d
 
 ### Pipeline:
 
-![UML class.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8002712a-ddc5-4d8b-bcd2-fdada339459d/5702ea64-a9b9-4b7a-afdc-6ecb43f0b3f8/UML_class.png)
+![pipeline](https://github.com/user-attachments/assets/d93e25a4-3298-4458-ab34-560113861b2c)
 
 ### Tech Stack Used:
 
