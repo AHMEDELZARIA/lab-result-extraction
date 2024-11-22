@@ -1,0 +1,85 @@
+@startuml structure
+
+class FastAPIapp {
+    +root()
+    +extract(file: UploadFile): JSON
+}
+
+package Validators {
+    abstract BaseValidator {
+        +validate(file: UploadFile): bool
+    }
+    class CompositeValidator {
+        -validators: List<Validators>
+
+        +validate(file: UploadFile): bool
+    }
+    class ExtensionValidator {
+        -allowed_extensions: List<str>
+
+        +validate(file: UploadFile): bool
+    }
+    class SizeValidator {
+        -max_size: int
+
+        +validate(file: UploadFile): bool
+    }
+    class MimeValidator {
+        -allowed_mimes: List<str>
+
+        +validate(file: UploadFile): bool
+    }
+}
+
+package models {
+    abstract ModelHandler {
+        +get_fields(text: str): JSON
+    }
+    class OpenAIModel {
+        -model: str
+
+        +get_fields(text: str): JSON
+        -load_prompt(**kwargs): str
+        -parse_response(response: str): JSON
+    }
+}
+
+package processors {
+    abstract BaseProcessor {
+        -validate(): bool
+        +extract_text(): str
+    }
+    class PDFProcessor {
+        -file: UploadFile
+
+        -_create_tmp_file(): file
+        -_validate(): bool
+        -_check_file_malformed(): bool
+        -_check_file_encrypted(): bool
+        -_check_file_empty(): bool
+        +extract_text(): str
+        -_cleanup(): None
+    }
+}
+
+
+' Relationships
+' Validators package
+BaseValidator <|-- ExtensionValidator
+BaseValidator <|-- SizeValidator
+BaseValidator <|-- MimeValidator
+BaseValidator <|-- CompositeValidator
+' Model package
+ModelHandler <|-- OpenAIModel
+' Processors package
+BaseProcessor <|-- PDFProcessor
+' How it all gets connected to the endpoint
+CompositeValidator "0..1" --> "1" ExtensionValidator : has
+CompositeValidator "0..1" --> "1" SizeValidator : has
+CompositeValidator "0..1" --> "1" MimeValidator : has
+FastAPIapp --> CompositeValidator
+FastAPIapp --> OpenAIModel
+FastAPIapp --> PDFProcessor
+
+
+@enduml
