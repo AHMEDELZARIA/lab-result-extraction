@@ -1,28 +1,62 @@
-from fastapi import FastAPI, UploadFile, File
+# Core FastAPI framework
+from fastapi import FastAPI, UploadFile, File, HTTPException
+
+from aiolimiter import AsyncLimiter
 
 from app.validators.composite_validator import CompositeValidator
 from app.validators.extention_validator import ExtensionValidator
 from app.validators.mime_validator import MimeValidator
 from app.validators.size_validator import SizeValidator
+from app.processors.pdf_processor import PDFProcessor
+from app.models.openai_models import OpenAIModel
 
+# Initialize the FastAPI application
 app = FastAPI()
+
+# Set a limit of 10 requests per minute
+limiter = AsyncLimiter(max_rate=10, time_period=60)
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to my API"}
+    """
+    Root endpoint, redirect instructions
+    """
+    return {"message": "Welcome to the Lab Results extraction API for the Medsender Challenge. Visit /docs for usage."}
 
 @app.post("/extract")
 async def extract(file: UploadFile = File(...)):
-    # Validate the file
-    validator = CompositeValidator([
-        ExtensionValidator(['pdf']),
-        MimeValidator(['application/pdf']),
-        SizeValidator(1)
-    ])
+    """
+    Given a valid lab result file, the following fields are extracted:
+    - Patient Name
+    - Patient Date of Birth (DOB)
+    - Patient Address
+    - Patient Gender
+    - Ordering Physician Name
+    If a field is not present in the file, the field will have the value "not present"
+    """
+    async  with limiter:
+        # Configure the file handling validator to accept only pdfs, no larger than 10 MBs
+        validator = CompositeValidator([
+            ExtensionValidator(['pdf']),
+            MimeValidator(['application/pdf']),
+            SizeValidator(10)
+        ])
 
-    try:
-        validator.validate(file)
-    except Exception as e:
-        return e
+        try:
+            # Perform file handling validations
+            validator.validate(file)
 
-    return {"status": f"{file.filename} has been received successfully"}
+            # Process the pdf and extract the text in Markdown format
+            # Markdown is a format easily understood by LLMs
+            pdf_processor = PDFProcessor(file)
+            text = await pdf_processor.extract_text()
+
+            # Prompt an OpenAI model to extract the required fields in json format
+            model = OpenAIModel("gpt-4o-mini")
+            result = model.get_fields(text)
+
+            return result
+        except Exception as e:
+            return HTTPException(
+                status_code=500, detail=str(e)
+            )

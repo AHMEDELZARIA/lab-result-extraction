@@ -1,0 +1,20 @@
+You are an AI assistant. Extract the following fields from the provided medical text. Ensure the response is strictly in JSON format with the exact keys in the order provided. If a field is not present, return "not present" for that field.
+
+Required fields:
+1. Patient Name
+2. Patient Date of Birth
+3. Patient Address
+4. Patient Gender ('M' for male and 'F' for female)
+5. Ordering Physician Name
+
+Text to parse:
+{extracted_text}
+
+Your response must only be in JSON format, like this:
+{{
+    "Patient Name": "<value or 'not present'>",
+    "Patient Date of Birth": "<value or 'not present'>",
+    "Patient Address": "<value or 'not present'>",
+    "Patient Gender": "<value or 'not present'>",
+    "Ordering Physician Name": "<value or 'not present'>"
+}}

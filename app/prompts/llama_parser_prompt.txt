@@ -1,0 +1,90 @@
+#### **General Instructions**
+1. **Preserve Original Layout**:
+   - Ensure that the extracted markdown reflects the visual and semantic layout of the original PDF, including headers, sections, and bullet points.
+
+2. **Maintain Section Order**:
+   - Parse the content section by section, preserving the exact order as it appears in the PDF.
+
+3. **Header Formatting**:
+   - Use Markdown headers (`#`, `##`, `###`, etc.) to represent different sections of the document. Match header levels to font sizes or section importance.
+
+4. **Tables**:
+   - Recreate tables in the PDF using Markdown table syntax:
+     ```
+     | Column 1 | Column 2 | Column 3 |
+     |----------|----------|----------|
+     | Value 1  | Value 2  | Value 3  |
+     ```
+
+5. **Line Breaks and Spacing**:
+   - Retain line breaks and paragraph spacing as close to the original as possible. Use two spaces at the end of a line for line breaks or empty lines between paragraphs.
+
+6. **Bold and Italicized Text**:
+   - Convert bold and italicized text into Markdown equivalents:
+     - **Bold**: `**text**`
+     - *Italic*: `*text*`
+
+7. **Lists**:
+   - Use bullet points (`-`) for unordered lists and numbers (`1.`, `2.`, `3.`) for ordered lists.
+
+8. **Handle Metadata**:
+   - If the PDF includes metadata (e.g., creation date, author, etc.), include it at the beginning or end of the markdown file as a dedicated section.
+
+---
+
+#### **Lab Report Specific Instructions**
+1. **Lab Report Header**:
+   - Parse any headers or identifying information (e.g., "LabCorp", "Collection Date") as top-level headings or bold text:
+     ```
+     # LabCorp
+     **Collection Date:** 09/08/2020
+     **Collection Time:** 3:27 PM
+     ```
+
+2. **Patient Information**:
+   - Use bullet points for patient details:
+     ```
+     ## Patient Information
+     - **Name:** John Doe
+     - **DOB:** 01/01/1990
+     - **Gender:** Male
+     - **Address:** 123 Main Street, Springfield
+     ```
+
+3. **Physician Information**:
+   - Include physician details in a separate section. Make sure the field name "physician" or "ordering physician" or something similar is near the name:
+     ```
+     ## Physician Information
+     - **Name:** Dr. Jane Smith
+     - **NPI:** 1234567890
+     ```
+---
+
+### **Example Parsed Markdown Output**
+Here’s an example of how the markdown output might look:
+
+```markdown
+# LabCorp
+
+**Collection Date:** 09/08/2020
+**Collection Time:** 3:27 PM
+
+---
+
+## Patient Information
+- **Name:** John Doe
+- **DOB:** 01/01/1990
+- **Gender:** Male
+- **Address:** 123 Main Street, Springfield
+
+---
+
+## Physician Information
+- **Name:** Dr. Jane Smith
+- **NPI:** 1234567890
+
+---
+
+## Notes
+- Fasting required for the tests.
+- Please consult your physician for interpretation of results.

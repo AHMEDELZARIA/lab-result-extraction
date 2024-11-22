@@ -6,11 +6,15 @@ class CompositeValidator(BaseValidator):
     """
     This subclass of BaseValidator takes in a list of validators and validates the file on specified validators.
 
-    Attributes:
-        validators (list): A list of validators.
+    Attributes
+    ----------
+    validators : list of validator objects
+        A list of validators
 
-    Methods:
-        validate(path): Validates the file on specified validators.
+    Methods
+    -------
+    validate(file: UploadFile) -> None
+        Validates the file on specified validators
     """
 
     def __init__(self, validators):
@@ -20,8 +24,11 @@ class CompositeValidator(BaseValidator):
         """
         Validates the file on specified validators.
 
-        :param file: the file to validate.
-        :return: True if the file is valid, HTTPException otherwise.
+        Arguments:
+            file (UploadFile): The file to validate
+
+        Raises:
+            Exception: If any of the validators are invalid
         """
         for validator in self.validators:
             validator.validate(file)
