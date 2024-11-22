@@ -19,20 +19,19 @@ limiter = AsyncLimiter(max_rate=10, time_period=60)
 @app.get("/")
 async def root():
     """
-    Root endpoint, redirect instructions
+    Root endpoint, redirect to /extract
     """
-    return {"message": "Welcome to the Lab Results extraction API for the Medsender Challenge. Visit /docs for usage."}
+    return {"message": "Welcome to the Lab Results extraction API for the Medsender Challenge. Visit /docs for an interface to use the extract endpoint."}
 
 @app.post("/extract")
 async def extract(file: UploadFile = File(...)):
     """
-    Given a valid lab result file, the following fields are extracted:
+    Given a valid lab result file, the following fields are extracted (if a field is not present, it will have a default value of "not present"):
     - Patient Name
     - Patient Date of Birth (DOB)
     - Patient Address
     - Patient Gender
     - Ordering Physician Name
-    If a field is not present in the file, the field will have the value "not present"
     """
     async  with limiter:
         # Configure the file handling validator to accept only pdfs, no larger than 10 MBs
