@@ -1,27 +1,18 @@
-# Medsender Challenge - Lab Result Extraction
+# Lab Result Extraction
 
 ## Problem Statement
 
-Medsender processes millions of medical documents monthly, making it challenging to extract relevant information due to:
+The healthcare industry processes millions of medical documents, often containing critical information in a variety of formats and layouts. This project focuses on extracting structured information from **lab result documents**, addressing challenges such as diverse document layouts and unstructured data.
 
-1. The vast quantity of documents.
-2. The variety of formats and layouts.
+### Key Objectives
 
-For this challenge, I focus on **lab results** and aim to extract the following fields:
-
-- Patient Name
-- Patient Date of Birth (DOB)
-- Patient Address
-- Patient Gender
-- Ordering Physician Name
-
-### Task Requirements
-
-- Create an endpoint to:
-    1. Accept a lab result document (PDF).
-    2. Extract the specified fields.
-    3. Return a structured JSON response.
-- Ensure the solution is:
+- Extract the following fields from lab results:
+    1. Patient Name
+    2. Patient Date of Birth (DOB)
+    3. Patient Address
+    4. Patient Gender
+    5. Ordering Physician Name
+- Ensure the product is:
     - **Robust**: Handle edge cases like malformed files, missing fields, etc.
     - **Maintainable**: Production-level documentation, error handling, and modularity.
     - **Portable**: Dockerized for easy deployment.
@@ -72,7 +63,7 @@ For this challenge, I focus on **lab results** and aim to extract the following 
 - **Tried**: Libraries like `pdfplumber` and EasyOCR.
     - Results: Text extracted successfully but lacked meaningful structure.
 
-### Solution:
+### Current Solution:
 
 - Used **Llama Parse** from LlamaIndex for text extraction.
     - Leverages LLMs to extract and organize text in Markdown format.
@@ -85,7 +76,7 @@ For this challenge, I focus on **lab results** and aim to extract the following 
 - Extracted text included irrelevant information and inconsistent formatting.
 - Regex and Named Entity Recognition (NER) were ineffective for cleaning noisy text across varying layouts.
 
-### Solution:
+### Current Solution:
 
 - Combined **Llama Parse** with targeted prompt engineering to improve logical structure and clean extracted data.
 
@@ -138,7 +129,7 @@ For this challenge, I focus on **lab results** and aim to extract the following 
     ```
     
 
-### Solution:
+### Current Solution:
 
 - Used **OpenAI's GPT-4o-mini API**:
     - Provided well-structured parsed text as input.
@@ -305,8 +296,8 @@ This section provides two ways to run the app:
 1. **Clone the Repository**:
     
     ```bash
-    git clone git@github.com:AHMEDELZARIA/medsender-challenge.git
-    cd medsender-challenge
+    git clone git@github.com:AHMEDELZARIA/lab-result-extraction.git
+    cd lab-result-extraction
     
     ```
     
@@ -349,13 +340,13 @@ This section provides two ways to run the app:
 1. **Build the Docker Image**:
     
     ```bash
-    docker build -t medsender-challenge .
+    docker build -t lab-result-extraction .
     ```
     
 2. **Run the Docker Container**:
     
     ```bash
-    docker run -d -p 8000:8000 --env-file .env medsender-challenge
+    docker run -d -p 8000:8000 --env-file .env lab-result-extraction
     
     ```
    
